@@ -1,3 +1,4 @@
+import 'package:applegendsclub/views/detailArtist.dart';
 import 'package:flutter/material.dart';
 
 import '../model/user.dart';
@@ -172,6 +173,11 @@ class _AppointmentState extends State<Appointment> {
                         itemBuilder: (BuildContext context, int index) {
                           return InkWell(
                             onTap: (){
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    DetailArtist(_artist[index],index))
+                                );
                               debugPrint('entra ${index}');
                             },
                             splashColor: Color.fromARGB(255, 124, 130, 133),

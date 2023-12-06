@@ -207,7 +207,7 @@ class _HomePageState extends State<HomePage> {
                                   child: InkWell(
                                     onTap: () => {
                                       Navigator.of(context).push(
-                                      new MaterialPageRoute(
+                                      MaterialPageRoute(
                                         builder: (BuildContext context) =>
                                             DetailStyle(tapped: {'tap':1,'name':'Neo Tradicional'})
                                             )
@@ -248,7 +248,7 @@ class _HomePageState extends State<HomePage> {
                                   child: InkWell(
                                     onTap: () => {
                                       Navigator.of(context).push(
-                                      new MaterialPageRoute(
+                                      MaterialPageRoute(
                                         builder: (BuildContext context) =>
                                             DetailStyle(tapped: {'tap':2,'name':'Anime'})
                                             )
@@ -289,7 +289,7 @@ class _HomePageState extends State<HomePage> {
                                   child: InkWell(
                                     onTap: () => {
                                       Navigator.of(context).push(
-                                      new MaterialPageRoute(
+                                      MaterialPageRoute(
                                         builder: (BuildContext context) =>
                                             DetailStyle(tapped: {'tap':3,'name':'Blackwork'})
                                             )
@@ -330,7 +330,7 @@ class _HomePageState extends State<HomePage> {
                                   child: InkWell(
                                     onTap: () => {
                                       Navigator.of(context).push(
-                                      new MaterialPageRoute(
+                                      MaterialPageRoute(
                                         builder: (BuildContext context) =>
                                             DetailStyle(tapped: {'tap':4,'name':'Lettering'})
                                             )
@@ -372,7 +372,7 @@ class _HomePageState extends State<HomePage> {
                                   child: InkWell(
                                     onTap: () => {
                                       Navigator.of(context).push(
-                                      new MaterialPageRoute(
+                                      MaterialPageRoute(
                                         builder: (BuildContext context) =>
                                             DetailStyle(tapped: {'tap':5,'name':'Blackwork'})
                                             )
@@ -413,7 +413,7 @@ class _HomePageState extends State<HomePage> {
                                   child: InkWell(
                                     onTap: () => {
                                       Navigator.of(context).push(
-                                      new MaterialPageRoute(
+                                      MaterialPageRoute(
                                         builder: (BuildContext context) =>
                                             DetailStyle(tapped: {'tap':6,'name':'Lettering'})
                                             )
