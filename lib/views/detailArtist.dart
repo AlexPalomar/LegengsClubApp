@@ -169,15 +169,14 @@ class _DetailArtistState extends State<DetailArtist> {
                                           Text(widget.artistTapped['phoneUser'].toString(), style: textStyle14),
                                         ],
                                       ),
-                                      Row(
-                                        children: [
-                                          const Text('Correo: ', style: textStyleBold),
-                                          Text(widget.artistTapped['emailUser'].toString(), style: textStyle14),
-                                        ],
-                                      ),
                                       const Row(
                                         children: [
-                                          Text(''),
+                                          Text('Correo: ', style: textStyleBold),
+                                        ],
+                                      ),
+                                       Row(
+                                        children: [
+                                          Text(widget.artistTapped['emailUser'].toString(), style: textStyle14, maxLines: 2,),
                                         ],
                                       ),
                                     ],

@@ -1,5 +1,11 @@
+import 'dart:async';
+
+import 'package:applegendsclub/views/appointment.dart';
 import 'package:flutter/material.dart';
 import 'package:applegendsclub/views/signup.dart';
+
+import '../model/user.dart';
+import '../services/conexionApiService.dart';
 
 class Signin extends StatefulWidget {
   const Signin({super.key});
@@ -9,6 +15,9 @@ class Signin extends StatefulWidget {
 }
 
 class _SigninState extends State<Signin> {
+
+  User user = User();
+  ConexionApiService conexionApiService = ConexionApiService();
 
   late TextEditingController controller;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -30,7 +39,7 @@ class _SigninState extends State<Signin> {
 
     var cardTextStyle = TextStyle(
         fontFamily: "Montserrat Regular",
-        fontSize: 14,
+        fontSize: 18,
         color: Color.fromRGBO(63, 63, 63, 1));
 
     return Scaffold(
@@ -48,7 +57,7 @@ class _SigninState extends State<Signin> {
               children: [
                 TextButton(
                   onPressed: (){
-                    Navigator.of(context).pop();
+                    Navigator.popUntil(context, (route) => route.isFirst);
                   }, 
                   child: const Icon(Icons.arrow_back_ios_new),
                   style: ButtonStyle(
@@ -78,15 +87,15 @@ class _SigninState extends State<Signin> {
                           Padding(
                             padding: const EdgeInsets.fromLTRB(0,0,0,10),
                             child: Container(
-                              height: size.height *.1,
+                              height: size.height *.2,
                               //  --------  para poner logo en el login --------
-                              // decoration: BoxDecoration(
-                              //   image: DecorationImage(
-                              //     scale: 1.0,
-                              //     alignment: Alignment.center,
-                              //     image: const AssetImage('assets/images/ic_regist_login.png')
-                              //   ),
-                              // ),
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  scale: 0.5,
+                                  alignment: Alignment.center,
+                                  image: const AssetImage('assets/images/icon.png')
+                                ),
+                              ),
                             ),
                           ),
                           const Text(
@@ -100,16 +109,16 @@ class _SigninState extends State<Signin> {
                             style: cardTextStyle,
                             autofocus: true,
                             keyboardType: TextInputType.multiline,
-                            decoration: const InputDecoration(labelText: 'Usuario'),
+                            decoration: const InputDecoration(labelText: 'Correo'),
                             maxLines: 1,
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Usuario es Requerida';
+                                return 'Correo es Requerida';
                               }
                               return null;
                             },
                             onSaved: (value) {
-                              // user.setUser(value);
+                              user.setEmail(value);
                             },
                           ),
                           TextFormField(
@@ -127,7 +136,7 @@ class _SigninState extends State<Signin> {
                               return null;
                             },
                             onSaved: (value) {
-                              // user.setPassword(value);
+                              user.setPassword(value);
                             },
                           ),
                           Padding(
@@ -139,7 +148,7 @@ class _SigninState extends State<Signin> {
                                   children: [
                                     TextButton(
                                       onPressed: () {  },
-                                      child: Text(
+                                      child: const Text(
                                         '¿Olvidó la contraseña?',
                                         style: TextStyle(fontFamily: "Montserrat Regular",
                                           fontSize:16,
@@ -160,18 +169,18 @@ class _SigninState extends State<Signin> {
                               child: TextButton(
                                 onHover: (value){
                                   if(value){
-                                    DecoratedBox(
+                                    const DecoratedBox(
                                     decoration: BoxDecoration(
                                       color: Color.fromRGBO(63, 63, 63, 1)
-                                    ),
-                                  );
+                                      ),
+                                    );
                                   }
                                 },
-                                child: Text('iniciar sessión',
-                                  style: TextStyle(
+                                child: const Text('iniciar sessión',
+                                  style: const TextStyle(
                                     fontFamily: "Montserrat Regular", 
                                     color: Colors.white,
-                                    fontSize:16)
+                                    fontSize:18)
                                 ),
                                 style: ButtonStyle(
                                   backgroundColor: MaterialStateProperty.all<Color>(Color.fromRGBO(63, 63, 63, 1)),
@@ -195,7 +204,28 @@ class _SigninState extends State<Signin> {
                                       ),
                                     );
                                   });
-                                  _formKey.currentState!.save();                  
+                                  _formKey.currentState!.save();
+                                  conexionApiService.setLogin(
+                                    user.getEmail().toString(), 
+                                    user.getPassword().toString()).then((resp)=>{
+                                      // debugPrint(resp['message'].toString()),
+                                      debugPrint(resp['data'][0].toString()),
+                                      
+                                      if(resp['message'] == 'logueed'){
+                                        Timer(Duration(seconds: 3), () {
+                                        Navigator.of(context).pop();
+
+                                        Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                              builder: (BuildContext context) =>
+                                                  Appointment(resp['data'][0])
+                                            )
+                                          );
+                                      })
+                                      }
+                                        
+                                    });
+                                  _formKey.currentState?.reset();                  
                                 }, 
                               ),
                             ),
@@ -210,7 +240,7 @@ class _SigninState extends State<Signin> {
                                   child: const Text(
                                     'Nuevo usuario?',
                                     style: TextStyle(fontFamily: "Montserrat Regular",
-                                      fontSize:16,
+                                      fontSize:18,
                                       color: Colors.black),
                                     textAlign: TextAlign.center
                                   ),
@@ -223,244 +253,18 @@ class _SigninState extends State<Signin> {
                                         builder: (BuildContext context) =>
                                           signup())
                                     );
-                                    // showDialog<String>(
-                                    //   barrierDismissible: false,
-                                    //   context: context,
-                                    //   builder: (BuildContext context) => 
-                                      
-                                    //     AlertDialog(
-                                    //       title: Center(child: const Text('Nuevo Usuario')),
-                                    //       scrollable: true,
-                                    //       actions: <Widget>[
-                                    //         Padding(
-                                    //           padding: const EdgeInsets.fromLTRB(12,0,12,0),
-                                    //           child: SizedBox(
-                                    //             // width: size.width*0.20,
-                                    //             height: size.width*1.70,
-                                    //             child: Column(
-                                    //               children: [
-                                    //                 Column(
-                                    //                   children: [
-                                    //                     Form(
-                                    //                       key: _formKey,
-                                    //                       child: Column(
-                                    //                         children: [
-                                    //                           TextFormField(
-                                    //                             style: alertTextStyle,
-                                    //                             autofocus: true,
-                                    //                             keyboardType: TextInputType.multiline,
-                                    //                             decoration: InputDecoration(labelText: 'Identificación'),
-                                    //                             maxLines: 1,
-                                    //                             validator: (value) {
-                                    //                               if (value == null || value.isEmpty) {
-                                    //                                 return 'Identificación es Requerida';
-                                    //                               }
-                                    //                               return null;
-                                    //                             },
-                                    //                             onSaved: (value) {
-                                    //                               // user.setId(value);
-                                    //                             },
-                                    //                           ),
-                                    //                           TextFormField(
-                                    //                             style: alertTextStyle,
-                                    //                             autofocus: true,
-                                    //                             keyboardType: TextInputType.multiline,
-                                    //                             decoration: InputDecoration(labelText: 'Nombre'),
-                                    //                             maxLines: 1,
-                                    //                             validator: (value) {
-                                    //                               if (value == null || value.isEmpty) {
-                                    //                                 return 'nombre es Requerida';
-                                    //                               }
-                                    //                               return null;
-                                    //                             },
-                                    //                             onSaved: (value) {
-                                    //                               // user.setName(value);
-                                    //                             },
-                                    //                           ),
-                                    //                           TextFormField(
-                                    //                             style: alertTextStyle,
-                                    //                             autofocus: true,
-                                    //                             keyboardType: TextInputType.multiline,
-                                    //                             decoration: InputDecoration(labelText: 'Apellidos'),
-                                    //                             maxLines: 1,
-                                    //                             validator: (value) {
-                                    //                               if (value == null || value.isEmpty) {
-                                    //                                 return 'nombre es Requerida';
-                                    //                               }
-                                    //                               return null;
-                                    //                             },
-                                    //                             onSaved: (value) {
-                                    //                               // user.setLastname(value);
-                                    //                             },
-                                    //                           ),
-                                    //                           TextFormField(
-                                    //                             style: alertTextStyle,
-                                    //                             autofocus: true,
-                                    //                             keyboardType: TextInputType.multiline,
-                                    //                             decoration: InputDecoration(labelText: 'Correo'),
-                                    //                             maxLines: 1,
-                                    //                             validator: (value) {
-                                    //                               if (value == null || value.isEmpty) {
-                                    //                                 return 'Correo es Requerida';
-                                    //                               }
-                                    //                               return null;
-                                    //                             },
-                                    //                             onSaved: (value) {
-                                    //                               // user.setEmail(value);
-                                    //                             },
-                                    //                           ),
-                                    //                           TextFormField(
-                                    //                             style: alertTextStyle,
-                                    //                             autofocus: true,
-                                    //                             keyboardType: TextInputType.multiline,
-                                    //                             decoration: InputDecoration(labelText: 'Usuario'),
-                                    //                             maxLines: 1,
-                                    //                             validator: (value) {
-                                    //                               if (value == null || value.isEmpty) {
-                                    //                                 return 'Usuario es Requerida';
-                                    //                               }
-                                    //                               return null;
-                                    //                             },
-                                    //                             onSaved: (value) {
-                                    //                               // user.setUser(value);
-                                    //                             },
-                                    //                           ),
-                                    //                           TextFormField(
-                                    //                             style: alertTextStyle,
-                                    //                             autofocus: true,
-                                    //                             keyboardType: TextInputType.multiline,
-                                    //                             decoration: InputDecoration(labelText: 'Contraseña'),
-                                    //                             maxLines: 1,
-                                    //                             validator: (value) {
-                                    //                               if (value == null || value.isEmpty) {
-                                    //                                 return 'Contraseña es Requerida';
-                                    //                               }
-                                    //                               return null;
-                                    //                             },
-                                    //                             onSaved: (value) {
-                                    //                               // user.setPassword(value);
-                                    //                             },
-                                    //                           ),
-                                    //                           TextFormField(
-                                    //                             style: alertTextStyle,
-                                    //                             autofocus: true,
-                                    //                             keyboardType: TextInputType.multiline,
-                                    //                             decoration: InputDecoration(labelText: 'Confirmar Contraseña'),
-                                    //                             maxLines: 1,
-                                    //                             validator: (value) {
-                                    //                               if (value == null || value.isEmpty) {
-                                    //                                 return 'Contraseña es Requerida';
-                                    //                               }
-                                    //                               return null;
-                                    //                             },
-                                    //                             onSaved: (value) {
-                                    //                               // user.getUser();
-                                    //                             },
-                                    //                           ),
-                                    //                         ],
-                                    //                       )
-                                    //                     ),
-                                    //                     Row(
-                                    //                       mainAxisAlignment: MainAxisAlignment.center,
-                                    //                       mainAxisSize: MainAxisSize.max,
-                                    //                       children: [
-                                    //                         Padding(
-                                    //                           padding: const EdgeInsets.all(12.0),
-                                    //                           child: Row(
-                                    //                             children: [
-                                    //                               Padding(
-                                    //                                 padding: const EdgeInsets.fromLTRB(05,0,05,0),
-                                    //                                 child: SizedBox(
-                                    //                                   width: size.width*0.25,
-                                    //                                   height: size.width*0.06,
-                                    //                                   child: TextButton(
-                                    //                                     onPressed: () => {
-                                    //                                       Navigator.of(context).pushNamed('/')
-                                    //                                     },
-                                    //                                     child: Text('cancelar',
-                                    //                                       style: TextStyle(
-                                    //                                         fontFamily: "Montserrat Regular", 
-                                    //                                         color: Colors.white,
-                                    //                                         fontSize:18)
-                                    //                                     ),
-                                    //                                     style: ButtonStyle(
-                                    //                                       backgroundColor: MaterialStateProperty.all<Color>(Colors.deepOrange),
-                                    //                                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                                    //                                         RoundedRectangleBorder(
-                                    //                                           borderRadius: BorderRadius.circular(18.0),
-                                    //                                           side: BorderSide(color: Colors.red)
-                                    //                                         )
-                                    //                                       )),
-                                    //                                   ),
-                                    //                                 ),
-                                    //                               ),
-                                    //                               Padding(
-                                    //                                 padding: const EdgeInsets.fromLTRB(05,0,05,0),
-                                    //                                 child: SizedBox(
-                                    //                                   width: size.width*0.25,
-                                    //                                   height: size.width*0.06,
-                                    //                                   child: TextButton(
-                                    //                                     onPressed: (){
-                                    //                                     if (!_formKey.currentState!.validate()) {
-                                    //                                       return;
-                                    //                                     }
-                                    //                                     _formKey.currentState!.save();
-                                                                        
-                                    //                                     _formKey.currentState?.reset();
-                                    //                                     Navigator.of(context).pushNamed('/');
-                                    //                                     ScaffoldMessenger.of(context).showSnackBar(
-                                    //                                       const SnackBar(content: Text(
-                                    //                                         style: TextStyle(color: Colors.green),
-                                    //                                         'Usuario guardado exitosamente'),
-                                    //                                         backgroundColor: Color.fromARGB(255, 248, 245, 245),
-                                    //                                     ));
-                                    //                                     },
-                                    //                                     child: Text('guardar',
-                                    //                                       style: TextStyle(
-                                    //                                         fontFamily: "Montserrat Regular", 
-                                    //                                         color: Colors.white,
-                                    //                                         fontSize:18)
-                                    //                                     ),
-                                    //                                     style: ButtonStyle(
-                                    //                                       backgroundColor: MaterialStateProperty.all<Color>(Colors.deepOrange),
-                                    //                                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                                    //                                         RoundedRectangleBorder(
-                                    //                                           borderRadius: BorderRadius.circular(18.0),
-                                    //                                           side: BorderSide(color: Colors.red)
-                                    //                                         )
-                                    //                                       )),
-                                    //                                   ),
-                                    //                                 ),
-                                    //                               ),
-                                    //                             ],
-                                    //                           ),
-                                    //                         ),
-                                    //                       ],
-                                    //                     ),
-                                    //                   ],
-                                    //                 ),
-                                    //               ],
-                                    //             ),
-                                    //           ),
-                                    //         ),
-                                    //       ],
-                                    //     ),
-                                      
-                                    // );
-                                    
-                                    },
+                                  },
                                   child: const Text(
                                     'registrarse',
                                     style: TextStyle(fontFamily: "Montserrat Regular",
-                                      fontSize:16,
+                                      fontSize:18,
                                       color: Color.fromARGB(255, 62, 66, 64)),
                                     textAlign: TextAlign.center
                                     ),
                                 )
                               ],
-                              ),
+                            ),
                           )
-                              
                         ],
                       ),
                     ),   

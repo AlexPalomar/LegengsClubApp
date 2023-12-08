@@ -1,11 +1,15 @@
+import 'dart:async';
+
 import 'package:applegendsclub/views/detailArtist.dart';
+import 'package:applegendsclub/views/signin.dart';
 import 'package:flutter/material.dart';
 
 import '../model/user.dart';
 import '../services/conexionApiService.dart';
 
 class Appointment extends StatefulWidget {
-  const Appointment({super.key});
+  final Map<String, dynamic> userlogeed;
+  const Appointment(this.userlogeed, {super.key});
 
   @override
   State<Appointment> createState() => _AppointmentState();
@@ -28,14 +32,13 @@ class _AppointmentState extends State<Appointment> {
 
   @override
   void initState() {
-    
-    conexionApiService.getUsers().then((resp){
-      // _foundUsers = resp;
-      _foundUsersAll = resp;
-      _artist = _foundUsersAll['user'].reversed.toList();
-      debugPrint("este ${_artist.toString()}");
-
-    });
+      debugPrint("logeed ${this.widget.userlogeed.toString()}");
+      conexionApiService.getUsers().then((resp){
+        // _foundUsers = resp;
+        _foundUsersAll = resp;
+        _artist = _foundUsersAll['user'].reversed.toList();
+        // debugPrint("este ${_artist.toString()}"); // imprime datos de retorno de la conexionApiService.getUsers().then((resp)
+      });
     // TODO: implement initState
 
     super.initState();
@@ -116,13 +119,13 @@ class _AppointmentState extends State<Appointment> {
               children: [
                 TextButton(
                   onPressed: (){
-                    Navigator.of(context).pop();
+                    Navigator.popUntil(context, (route) => route.isFirst);
                   },
                   style: ButtonStyle(
                     foregroundColor: MaterialStateProperty.all<Color>(Colors.white)),
                   child: const Icon(Icons.arrow_back_ios_new),
                 ),
-                const Text('Agendamiento Cita',
+                const Text('Artistas Disponibles',
                   style: textStyle,
                 ),
                 TextButton(
@@ -284,400 +287,6 @@ class _AppointmentState extends State<Appointment> {
                   }
                 },
               ),
-              
-              
-              // Column(
-              //     mainAxisAlignment: MainAxisAlignment.center,
-              //     crossAxisAlignment: CrossAxisAlignment.center,
-              //     children: [
-
-              //       // Expanded(
-              //       //   child: GridView.count(
-              //       //     crossAxisCount: 3,
-              //       //     mainAxisSpacing: 10,
-              //       //     crossAxisSpacing: 10,
-              //       //     primary: false,
-              //       //     children: [
-              //       //       Card(
-              //       //         shape: RoundedRectangleBorder(
-              //       //             borderRadius: BorderRadius.circular(8)),
-              //       //         elevation: 4,
-              //       //         child: InkWell(
-              //       //           onTap: () => {
-              //       //             // countTap = 0,
-              //       //             // _update()
-              //       //             // Navigator.of(context).push(
-              //       //             // new MaterialPageRoute(
-              //       //             //   builder: (BuildContext context) =>
-              //       //             //       ManagerRt()
-              //       //             //       )
-              //       //           // )
-              //       //           },
-              //       //           splashColor: const Color.fromARGB(255, 131, 128, 128),
-              //       //           child: Stack(
-              //       //             fit: StackFit.expand,
-              //       //             children: [
-              //       //               Padding(
-              //       //                 padding: const EdgeInsets.all(5.0),
-              //       //                 child: Image.asset(
-              //       //                   'assets/images/service-1.png',
-              //       //                   fit: BoxFit.cover,
-              //       //                   width: MediaQuery.of(context).size.width,
-              //       //                   ),
-              //       //               ),
-              //       //               const Column(
-              //       //                 mainAxisAlignment: MainAxisAlignment.end,
-              //       //                 crossAxisAlignment: CrossAxisAlignment.center,
-              //       //                 children: <Widget>[
-              //       //                   Padding(
-              //       //                     padding: EdgeInsets.fromLTRB(0,0,0,5),
-              //       //                     child: Text(
-              //       //                       ' Jhon Doe ',
-              //       //                       style: textStyleWhiteBlack,
-              //       //                     ),
-              //       //                   ),
-              //       //                 ],
-              //       //               ),
-              //       //             ]
-              //       //           ),
-              //       //         ),
-              //       //       ),
-              //       //       Card(
-              //       //         shape: RoundedRectangleBorder(
-              //       //             borderRadius: BorderRadius.circular(8)),
-              //       //         elevation: 4,
-              //       //         child: InkWell(
-              //       //           onTap: () => {
-              //       //             countTap = 1,
-              //       //             _update()
-              //       //             // Navigator.of(context).push(
-              //       //             // new MaterialPageRoute(
-              //       //             //   builder: (BuildContext context) =>
-              //       //             //       ManagerRt()
-              //       //             //       )
-              //       //           // )
-              //       //           },
-              //       //           splashColor: const Color.fromARGB(255, 131, 128, 128),
-              //       //           child: Stack(
-              //       //             fit: StackFit.expand,
-              //       //             children: [
-              //       //               Padding(
-              //       //                 padding: const EdgeInsets.all(5.0),
-              //       //                 child: Image.asset(
-              //       //                   'assets/images/service-2.png',
-              //       //                   fit: BoxFit.cover,
-              //       //                   width: MediaQuery.of(context).size.width,
-              //       //                   ),
-              //       //               ),
-              //       //               const Column(
-              //       //                 mainAxisAlignment: MainAxisAlignment.end,
-              //       //                 crossAxisAlignment: CrossAxisAlignment.center,
-              //       //                 children: <Widget>[
-              //       //                   Padding(
-              //       //                     padding: EdgeInsets.fromLTRB(0,0,0,5),
-              //       //                     child: Text(
-              //       //                       ' Caroline ',
-              //       //                       style: textStyleWhiteBlack,
-              //       //                     ),
-              //       //                   ),
-              //       //                 ],
-              //       //               ),
-              //       //             ]
-              //       //           ),
-              //       //         ),
-              //       //       ),
-              //       //       Card(
-              //       //         shape: RoundedRectangleBorder(
-              //       //             borderRadius: BorderRadius.circular(8)),
-              //       //         elevation: 4,
-              //       //         child: InkWell(
-              //       //           onTap: () => {
-              //       //             countTap = 2,
-              //       //             _update()
-              //       //             // Navigator.of(context).push(
-              //       //             // new MaterialPageRoute(
-              //       //             //   builder: (BuildContext context) =>
-              //       //             //       ManagerRt()
-              //       //             //       )
-              //       //           // )
-              //       //           },
-              //       //           splashColor: const Color.fromARGB(255, 131, 128, 128),
-              //       //           child: Stack(
-              //       //             fit: StackFit.expand,
-              //       //             children: [
-              //       //               Padding(
-              //       //                 padding: const EdgeInsets.all(5.0),
-              //       //                 child: Image.asset(
-              //       //                   'assets/images/service-3.png',
-              //       //                   fit: BoxFit.cover,
-              //       //                   width: MediaQuery.of(context).size.width,
-              //       //                   ),
-              //       //               ),
-              //       //               const Column(
-              //       //                 mainAxisAlignment: MainAxisAlignment.end,
-              //       //                 crossAxisAlignment: CrossAxisAlignment.center,
-              //       //                 children: <Widget>[
-              //       //                   Padding(
-              //       //                     padding: EdgeInsets.fromLTRB(0,0,0,5),
-              //       //                     child: Text(
-              //       //                       ' Hamir ',
-              //       //                       style: textStyleWhiteBlack,
-              //       //                     ),
-              //       //                   ),
-              //       //                 ],
-              //       //               ),
-              //       //             ]
-              //       //           ),
-              //       //         ),
-              //       //       ),
-              //       //       Card(
-              //       //         shape: RoundedRectangleBorder(
-              //       //             borderRadius: BorderRadius.circular(8)),
-              //       //         elevation: 4,
-              //       //         child: InkWell(
-              //       //           onTap: () => {
-              //       //             countTap = 3,
-              //       //             _update()
-              //       //             // Navigator.of(context).push(
-              //       //             // new MaterialPageRoute(
-              //       //             //   builder: (BuildContext context) =>
-              //       //             //       ManagerRt()
-              //       //             //       )
-              //       //           // )
-              //       //           },
-              //       //           splashColor: const Color.fromARGB(255, 131, 128, 128),
-              //       //           child: Stack(
-              //       //             fit: StackFit.expand,
-              //       //             children: [
-              //       //               Padding(
-              //       //                 padding: const EdgeInsets.all(5.0),
-              //       //                 child: Image.asset(
-              //       //                   'assets/images/service-4.png',
-              //       //                   fit: BoxFit.cover,
-              //       //                   width: MediaQuery.of(context).size.width,
-              //       //                   ),
-              //       //               ),
-              //       //               const Column(
-              //       //                 mainAxisAlignment: MainAxisAlignment.end,
-              //       //                 crossAxisAlignment: CrossAxisAlignment.center,
-              //       //                 children: <Widget>[
-              //       //                   Padding(
-              //       //                     padding: EdgeInsets.fromLTRB(0,0,0,5),
-              //       //                     child: Text(
-              //       //                       ' Lara Croff ',
-              //       //                       style: textStyleWhiteBlack,
-              //       //                     ),
-              //       //                   ),
-              //       //                 ],
-              //       //               ),
-              //       //             ]
-              //       //           ),
-              //       //         ),
-              //       //       ),
-              //       //       Card(
-              //       //         shape: RoundedRectangleBorder(
-              //       //             borderRadius: BorderRadius.circular(8)),
-              //       //         elevation: 4,
-              //       //         child: InkWell(
-              //       //           onTap: () => {
-              //       //             countTap = 4,
-              //       //             _update()
-              //       //             // Navigator.of(context).push(
-              //       //             // new MaterialPageRoute(
-              //       //             //   builder: (BuildContext context) =>
-              //       //             //       ManagerRt()
-              //       //             //       )
-              //       //           // )
-              //       //           },
-              //       //           splashColor: const Color.fromARGB(255, 131, 128, 128),
-              //       //           child: Stack(
-              //       //             fit: StackFit.expand,
-              //       //             children: [
-              //       //               Padding(
-              //       //                 padding: const EdgeInsets.all(5.0),
-              //       //                 child: Image.asset(
-              //       //                   'assets/images/service-1.png',
-              //       //                   fit: BoxFit.cover,
-              //       //                   width: MediaQuery.of(context).size.width,
-              //       //                   ),
-              //       //               ),
-              //       //               const Column(
-              //       //                 mainAxisAlignment: MainAxisAlignment.end,
-              //       //                 crossAxisAlignment: CrossAxisAlignment.center,
-              //       //                 children: <Widget>[
-              //       //                   Padding(
-              //       //                     padding: EdgeInsets.fromLTRB(0,0,0,5),
-              //       //                     child: Text(
-              //       //                       ' Jason ',
-              //       //                       style: textStyleWhiteBlack,
-              //       //                     ),
-              //       //                   ),
-              //       //                 ],
-              //       //               ),
-              //       //             ]
-              //       //           ),
-              //       //         ),
-              //       //       ),
-              //       //       Card(
-              //       //         shape: RoundedRectangleBorder(
-              //       //             borderRadius: BorderRadius.circular(8)),
-              //       //         elevation: 4,
-              //       //         child: InkWell(
-              //       //           onTap: () => {
-              //       //             countTap = 5,
-              //       //             _update()
-              //       //             // Navigator.of(context).push(
-              //       //             // new MaterialPageRoute(
-              //       //             //   builder: (BuildContext context) =>
-              //       //             //       ManagerRt()
-              //       //             //       )
-              //       //           // )
-              //       //           },
-              //       //           splashColor: const Color.fromARGB(255, 131, 128, 128),
-              //       //           child: Stack(
-              //       //             fit: StackFit.expand,
-              //       //             children: [
-              //       //               Padding(
-              //       //                 padding: const EdgeInsets.all(5.0),
-              //       //                 child: Image.asset(
-              //       //                   'assets/images/service-4.png',
-              //       //                   fit: BoxFit.cover,
-              //       //                   width: MediaQuery.of(context).size.width,
-              //       //                   ),
-              //       //               ),
-              //       //               const Column(
-              //       //                 mainAxisAlignment: MainAxisAlignment.end,
-              //       //                 crossAxisAlignment: CrossAxisAlignment.center,
-              //       //                 children: <Widget>[
-              //       //                   Padding(
-              //       //                     padding: EdgeInsets.fromLTRB(0,0,0,5),
-              //       //                     child: Text(
-              //       //                       ' Jeffer Vega ',
-              //       //                       style: textStyleWhiteBlack,
-              //       //                     ),
-              //       //                   ),
-              //       //                 ],
-              //       //               ),
-              //       //             ]
-              //       //           ),
-              //       //         ),
-              //       //       ),
-              //       //     ],
-              //       //   )
-              //       // ),
-                    
-              //       Column(
-              //         children: [
-              //           Container(
-              //             width: 400,
-              //             height: 250,
-              //             decoration: const BoxDecoration(
-              //               color: Color.fromARGB(255, 89, 95, 92),
-              //               borderRadius: BorderRadius.all(Radius.circular(10)),
-              //               gradient: LinearGradient(
-              //                 begin: Alignment.topCenter,
-              //                 end: Alignment.bottomCenter,
-              //                 colors: <Color>[
-              //                   Color.fromARGB(255, 65, 64, 62),
-              //                   Color.fromARGB(255, 124, 130, 133),
-              //                 ],
-              //               ),
-              //             ),
-              //             child: Column(
-              //                 children:[
-              //                   Row(
-              //                     mainAxisAlignment: MainAxisAlignment.start,
-              //                     crossAxisAlignment: CrossAxisAlignment.center,
-              //                     children: [
-              //                       Padding(
-              //                         padding: const EdgeInsets.fromLTRB(10,10,10,5),
-              //                             child: Card(
-              //                               shape: RoundedRectangleBorder(
-              //                               borderRadius: BorderRadius.circular(23.0)),
-              //                               elevation: 4,
-              //                               child: Padding(
-              //                                 padding: const EdgeInsets.all(1.0),
-              //                                 child: ClipRRect(
-              //                                   borderRadius: BorderRadius.circular(24.0),
-              //                                     child: Image.asset(
-              //                                       'assets/images/team-1.jpg',
-              //                                       fit: BoxFit.cover,
-              //                                       width: 150,
-              //                                       height: 150,
-              //                                       ),
-              //                                 ),
-              //                               ),
-              //                             ),
-              //                       ),
-              //                       Column(
-              //                         mainAxisAlignment: MainAxisAlignment.center,
-              //                         crossAxisAlignment: CrossAxisAlignment.start,
-              //                         children: [
-              //                           Text(_artist.length == countTap ? 'without data': _artist[countTap]['firstname'],
-              //                             style: const TextStyle(
-              //                               fontFamily: "Montserrat Regular",
-              //                               fontSize: 22,
-              //                               fontWeight: FontWeight.w900,
-              //                               color: Colors.white
-              //                             )
-              //                           ),
-              //                           Row(
-              //                             children: [
-              //                               const Text('Estilo: ', style: textStyleWhiteBold),
-              //                               Text(_artist.length == countTap ? '': _artist[countTap]['estyle'], style:textStyleWhite),
-              //                             ],
-              //                           ),
-              //                           Row(
-              //                             children: [
-              //                               const Text('Experiencia: ', style: textStyleWhiteBold),
-              //                               Text(_artist.length == countTap ? '': _artist[countTap]['experienceage'], style:textStyleWhite),
-              //                             ],
-              //                           ),
-              //                         ],
-              //                       ),
-              //                     ]
-              //                   ),
-              //                   Padding(
-              //                     padding: const EdgeInsets.all(10),
-              //                     child: SizedBox(
-              //                       width: 300,
-              //                       height: 50,
-              //                       child: Column(
-              //                         children: [
-              //                           // const Expanded(child:  Text('Description: ', style: textStyleWhiteBold)),
-              //                           Expanded(child: Text(_artist.length == countTap ? '': _artist[countTap]['description'],maxLines: 4, style:textStyleWhite)),
-                                  
-              //                         ],
-              //                       ),
-              //                     ),
-              //                   ),
-              //                 ]
-              //               ),
-
-              //           ),
-              //         ]
-              //       ),
-              //       ElevatedButton(
-              //         onPressed: (){
-              //           // Navigator.of(context).push(
-              //           // MaterialPageRoute(
-              //           //   builder: (BuildContext context) =>
-              //           //       Appointment())
-              //           //   );
-              //         },
-              //         style: ButtonStyle(
-              //           backgroundColor: MaterialStateProperty.all<Color>(Color.fromRGBO(63, 63, 63, 1)),
-              //           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-              //             RoundedRectangleBorder(
-              //               borderRadius: BorderRadius.circular(5),
-              //               side: const BorderSide(color: Color.fromRGBO(63, 63, 63, 1))
-              //             )
-              //         )),
-              //         child: const Text('Agendar Cita', style: textStyleWhite)
-              //       ),
-                  
-              //     ]
-              //   ),
           ),
         ),
       ),

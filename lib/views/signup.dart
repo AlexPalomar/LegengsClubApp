@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:applegendsclub/views/signin.dart';
 import 'package:flutter/material.dart';
 import 'package:applegendsclub/model/user.dart';
 import 'package:applegendsclub/services/conexionApiService.dart';
@@ -229,7 +232,7 @@ class _signupState extends State<signup> {
                                     return;
                                   }else{
                                     _formKey.currentState!.save(); // guarda el estado del formulario
-                                    conexionApiService.setUser(
+                                    conexionApiService.setSignup(
                                       user.getFirstname(),
                                       user.getLastname(),
                                       int.parse(user.getAge()),
@@ -237,27 +240,34 @@ class _signupState extends State<signup> {
                                       user.getEmail(),
                                       user.getPassword()
                                     );
-                                    Navigator.push(context,new MaterialPageRoute(
-                                      builder: (BuildContext context) =>
-                                        Logued(user)));
-                                    // showDialog(
-                                    // context: context,
-                                    // barrierDismissible: false,
-                                    // builder: (BuildContext context) {
-                                    //   return Center(
-                                    //     child: Text('Registrado exitosamente', style:alertTextStyle)
-                                    //   );
-                                    // });
-                                    // showDialog(
-                                    // context: context,
-                                    // barrierDismissible: false,
-                                    // builder: (BuildContext context) {
-                                    //   return Center(
-                                    //     child: CircularProgressIndicator(
-                                    //       color: Color.fromRGBO(63, 63, 63, 1),
-                                    //     ),
-                                    //   );
-                                    // });
+                                    showDialog(
+                                    context: context,
+                                    barrierDismissible: false,
+                                    builder: (BuildContext context) {
+                                      return Center(
+                                        child: CircularProgressIndicator(
+                                          color: Color.fromRGBO(63, 63, 63, 1),
+                                        ),
+                                      );
+                                    });
+                                    Timer(Duration(seconds: 2), () {
+                                        Navigator.of(context).pop();
+
+                                        Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                              builder: (BuildContext context) =>
+                                                  Signin()
+                                            )
+                                          );
+                                        showDialog(
+                                        context: context,
+                                        barrierDismissible: false,
+                                        builder: (BuildContext context) {
+                                          return Center(
+                                            child: Text('Registrado exitosamente', style:alertTextStyle)
+                                          );
+                                        });
+                                      });
                                     _formKey.currentState?.reset(); // resetea el formulario
                                   }    
                                 }, 

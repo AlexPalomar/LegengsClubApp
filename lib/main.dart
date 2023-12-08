@@ -27,6 +27,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final Map<String, dynamic> notLogeed = {};
   
   late TextEditingController controller;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -177,10 +178,15 @@ class _HomePageState extends State<HomePage> {
                         children: [
                           ElevatedButton(
                             onPressed: (){
+                              // Navigator.of(context).push(
+                              // MaterialPageRoute(
+                              //   builder: (BuildContext context) =>
+                              //       Appointment(notLogeed))
+                              //   );
                               Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (BuildContext context) =>
-                                    Appointment())
+                                    Signin())
                                 );
                             },
                             style: ButtonStyle(
@@ -209,7 +215,7 @@ class _HomePageState extends State<HomePage> {
                                       Navigator.of(context).push(
                                       MaterialPageRoute(
                                         builder: (BuildContext context) =>
-                                            DetailStyle(tapped: {'tap':1,'name':'Neo Tradicional'})
+                                            DetailStyle({'tap':1,'name':'Neo Tradicional'})
                                             )
                                     )
                                     },
@@ -250,7 +256,7 @@ class _HomePageState extends State<HomePage> {
                                       Navigator.of(context).push(
                                       MaterialPageRoute(
                                         builder: (BuildContext context) =>
-                                            DetailStyle(tapped: {'tap':2,'name':'Anime'})
+                                            DetailStyle({'tap':2,'name':'Anime'})
                                             )
                                     )
                                     },
@@ -291,7 +297,7 @@ class _HomePageState extends State<HomePage> {
                                       Navigator.of(context).push(
                                       MaterialPageRoute(
                                         builder: (BuildContext context) =>
-                                            DetailStyle(tapped: {'tap':3,'name':'Blackwork'})
+                                            DetailStyle({'tap':3,'name':'Blackwork'})
                                             )
                                     )
                                     },
@@ -332,7 +338,7 @@ class _HomePageState extends State<HomePage> {
                                       Navigator.of(context).push(
                                       MaterialPageRoute(
                                         builder: (BuildContext context) =>
-                                            DetailStyle(tapped: {'tap':4,'name':'Lettering'})
+                                            DetailStyle({'tap':4,'name':'Lettering'})
                                             )
                                     )
                                     },
@@ -374,7 +380,7 @@ class _HomePageState extends State<HomePage> {
                                       Navigator.of(context).push(
                                       MaterialPageRoute(
                                         builder: (BuildContext context) =>
-                                            DetailStyle(tapped: {'tap':5,'name':'Blackwork'})
+                                            DetailStyle({'tap':5,'name':'Puntillismo'})
                                             )
                                     )
                                     },
@@ -385,7 +391,7 @@ class _HomePageState extends State<HomePage> {
                                         Padding(
                                           padding: const EdgeInsets.all(5.0),
                                           child: Image.asset(
-                                            'assets/images/service-3.png', 
+                                            'assets/images/service-5.png', 
                                             fit: BoxFit.cover, 
                                             width: MediaQuery.of(context).size.width, 
                                             color: const Color.fromRGBO(63, 63, 63, 0.623),
@@ -397,7 +403,7 @@ class _HomePageState extends State<HomePage> {
                                           crossAxisAlignment: CrossAxisAlignment.center,
                                           children: <Widget>[
                                             Text(
-                                              'Blackwork',
+                                              'Puntillismo',
                                               style: cardTextStyle,
                                             ),
                                           ],
@@ -415,7 +421,7 @@ class _HomePageState extends State<HomePage> {
                                       Navigator.of(context).push(
                                       MaterialPageRoute(
                                         builder: (BuildContext context) =>
-                                            DetailStyle(tapped: {'tap':6,'name':'Lettering'})
+                                            DetailStyle({'tap':6,'name':'Realismo Sombras'})
                                             )
                                     )
                                     },
@@ -426,7 +432,7 @@ class _HomePageState extends State<HomePage> {
                                         Padding(
                                           padding: const EdgeInsets.all(5.0),
                                           child: Image.asset(
-                                            'assets/images/service-4.png', 
+                                            'assets/images/service-6.png', 
                                             fit: BoxFit.cover, 
                                             width: MediaQuery.of(context).size.width, 
                                             color: const Color.fromRGBO(63, 63, 63, 0.623),
@@ -438,7 +444,7 @@ class _HomePageState extends State<HomePage> {
                                           crossAxisAlignment: CrossAxisAlignment.center,
                                           children: <Widget>[
                                             Text(
-                                              'Lettering',
+                                              'Realismo Sombras',
                                               style: cardTextStyle,
                                             ),
                                           ],
