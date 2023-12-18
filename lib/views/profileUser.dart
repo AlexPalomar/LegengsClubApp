@@ -1,45 +1,51 @@
+import 'package:applegendsclub/util/session.dart';
 import 'package:flutter/material.dart';
 
-class DetailArtist extends StatefulWidget {
-  // final Map artistTapped;
-  final Map<String, dynamic> artistTapped;
-  final int imageUser;
+import '../main.dart';
 
-  const DetailArtist(this.artistTapped, this.imageUser, {super.key});
-
+class ProfileUser extends StatefulWidget {
+  final userSession;
+  const ProfileUser(this.userSession, {super.key});
   @override
-  State<DetailArtist> createState() => _DetailArtistState();
+  State<ProfileUser> createState() => _ProfileUserState();
 }
 
-class _DetailArtistState extends State<DetailArtist> {
-  final List<String> imageUrls = [
-    'URL_imagen_1',
-    'URL_imagen_2',
-    'URL_imagen_3',
-    // Agrega aquí las URL de tus imágenes
-  ];
-  final List<String> imageAssets = [
-    'assets/images/service-1.png',
-    'assets/images/service-2.png',
-    'assets/images/service-3.png',
-    'assets/images/service-4.png',
-    // Agrega aquí las URL de tus imágenes
-  ];
+class _ProfileUserState extends State<ProfileUser> {
+  Session session = Session();
+  bool logueed = false;
+  List<String> userLoguedd = [];
+
+  @override
+  void initState() {
+    userLoguedd = widget.userSession;
+    if (userLoguedd == null) {
+      debugPrint(userLoguedd.toString());
+    }
+    session.isSessionActive().then((resp) => {logueed = resp});
+    session.getSessionUser().then((resp) => {userLoguedd = resp});
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
+    const textStyle = TextStyle(
+        fontFamily: "Montserrat Regular", fontSize: 20, color: Colors.white);
+
     var allWidth = MediaQuery.of(context).size.width;
     const textStyleAppbar = TextStyle(
         fontFamily: "Montserrat Regular", fontSize: 20, color: Colors.white);
-
-    const textStyle = TextStyle(
-        fontFamily: "Montserrat Regular", fontSize: 16, color: Colors.black);
 
     const textStyleWhite = TextStyle(
       fontFamily: "Montserrat Regular",
       fontSize: 16,
       color: Colors.white,
     );
+
+    const textStyleBold20 = TextStyle(
+        fontFamily: "Montserrat Regular",
+        fontSize: 26,
+        fontWeight: FontWeight.w900,
+        color: Colors.black);
 
     const textStyleBold = TextStyle(
         fontFamily: "Montserrat Regular",
@@ -55,8 +61,12 @@ class _DetailArtistState extends State<DetailArtist> {
 
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: const Color.fromARGB(255, 62, 66, 64),
+          backgroundColor: Color.fromARGB(255, 62, 66, 64),
           automaticallyImplyLeading: false,
+          // title: const Text(
+          //   'Legend Club',
+          //   style: textStyle
+          //   ),
           actions: [
             Expanded(
               child: Row(
@@ -64,18 +74,18 @@ class _DetailArtistState extends State<DetailArtist> {
                 children: [
                   TextButton(
                     onPressed: () {
-                      Navigator.of(context).pop();
+                      // Navigator.of(context).pop();
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(
+                          builder: (BuildContext context) => HomePage()));
                     },
+                    child: const Icon(Icons.arrow_back_ios_new),
                     style: ButtonStyle(
                         foregroundColor:
                             MaterialStateProperty.all<Color>(Colors.white)),
-                    child: const Icon(Icons.arrow_back_ios_new),
                   ),
                   Text(
-                    widget.artistTapped['idUser__firstnameUser'].toString() +
-                        ' ' +
-                        widget.artistTapped['idUser__lastnameUser'].toString(),
-                    style: textStyleAppbar,
+                    'Perfil',
+                    style: textStyle,
                   ),
                 ],
               ),
@@ -111,7 +121,7 @@ class _DetailArtistState extends State<DetailArtist> {
                               //   // fit: BoxFit.cover,
                               //   ),
                               image: NetworkImage(
-                                  'https://reqres.in/img/faces/${widget.imageUser + 1}-image.jpg'),
+                                  'https://reqres.in/img/faces/1-image.jpg'),
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -119,6 +129,17 @@ class _DetailArtistState extends State<DetailArtist> {
                       ),
                     ],
                   ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      userLoguedd.isEmpty
+                          ? ''
+                          : userLoguedd[2] + ' ' + userLoguedd[3],
+                      style: textStyleBold20,
+                    )
+                  ],
                 ),
                 Row(
                   mainAxisSize: MainAxisSize.max,
@@ -137,34 +158,34 @@ class _DetailArtistState extends State<DetailArtist> {
                                 children: [
                                   Row(
                                     children: [
-                                      const Text('Estilo: ',
+                                      const Text('Identificación: ',
                                           style: textStyleBold),
                                       Text(
-                                          widget
-                                              .artistTapped['stileTattoArtist']
-                                              .toString(),
+                                          userLoguedd.isEmpty
+                                              ? ''
+                                              : userLoguedd[1].toString(),
                                           style: textStyle14),
                                     ],
                                   ),
                                   Row(
                                     children: [
-                                      const Text('Experiencia: ',
+                                      const Text('Nombre: ',
                                           style: textStyleBold),
                                       Text(
-                                          widget
-                                              .artistTapped['experienceArtist']
-                                              .toString(),
+                                          userLoguedd.isEmpty
+                                              ? ''
+                                              : userLoguedd[2].toString(),
                                           style: textStyle14),
                                     ],
                                   ),
                                   Row(
                                     children: [
-                                      const Text('País: ',
+                                      const Text('Edad: ',
                                           style: textStyleBold),
                                       Text(
-                                          widget
-                                              .artistTapped['nationalityArtist']
-                                              .toString(),
+                                          userLoguedd.isEmpty
+                                              ? ''
+                                              : userLoguedd[4].toString(),
                                           style: textStyle14),
                                     ],
                                   )
@@ -181,8 +202,9 @@ class _DetailArtistState extends State<DetailArtist> {
                                     const Text('Telefono: ',
                                         style: textStyleBold),
                                     Text(
-                                        widget.artistTapped['idUser__phoneUser']
-                                            .toString(),
+                                        userLoguedd.isEmpty
+                                            ? ''
+                                            : userLoguedd[5].toString(),
                                         style: textStyle14),
                                   ],
                                 ),
@@ -194,8 +216,9 @@ class _DetailArtistState extends State<DetailArtist> {
                                 Row(
                                   children: [
                                     Text(
-                                      widget.artistTapped['idUser__emailUser']
-                                          .toString(),
+                                      userLoguedd.isEmpty
+                                          ? ''
+                                          : userLoguedd[6].toString(),
                                       style: textStyle14,
                                       maxLines: 2,
                                     ),
@@ -241,36 +264,6 @@ class _DetailArtistState extends State<DetailArtist> {
                                             Color.fromRGBO(63, 63, 63, 1))))),
                     child: const Text('ver disponibilidad',
                         style: textStyleWhite)),
-                const Padding(
-                  padding: EdgeInsets.all(10),
-                  child: Text('Trabajos Realizados', style: textStyle),
-                ),
-                Center(
-                  child: SizedBox(
-                    width: allWidth * .80,
-                    height: 240, // Altura del slider
-                    child: PageView.builder(
-                      itemCount: imageUrls.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        //----- para traer imagenes de internet
-                        // return Image.network(
-                        //   imageUrls[index],
-                        //   fit: BoxFit.cover, // Ajustar imagen al tamaño del contenedor
-                        // );
-                        //----- para traer imagenes locales
-                        return Image.asset(
-                          imageAssets[index],
-                          fit: BoxFit
-                              .cover, // Ajustar imagen al tamaño del contenedor
-                        );
-                      },
-                    ),
-                  ),
-                ),
-                const Padding(
-                  padding: EdgeInsets.all(10),
-                  child: Text('< -- Desliza la imagen -- >', style: textStyle),
-                ),
               ])
             ],
           ),
