@@ -1,16 +1,12 @@
 # applegendsclub
 
-A new Flutter project.
-
 ## Getting Started
 
 This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
+App basica hecha con Flutter con consumo de servicio api restfull a backend hecho con python y sistema basico de login, iconos, logos, imágenes y contenido multimedia optimizado y creado con Adobe Ilustrator.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+https://github.com/AlexPalomar/LegengsClubApp/assets/45114605/d0d9783e-d526-4a4b-9d60-e0c66c2fc441
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+https://github.com/AlexPalomar/LegengsClubApp/assets/45114605/3335d2a3-a27b-4ef9-ac7a-e0307348d033
+
